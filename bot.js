@@ -1,3 +1,4 @@
+const express = require('express');
 const { Telegraf, Markup } = require('telegraf');
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
@@ -5,6 +6,24 @@ require('dotenv').config();
 // Инициализация клиента Supabase
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
+
+// Создание веб-сервера
+const app = express();
+const port = 3000;
+
+// Генерация случайного порта для тестирования
+const getRandomPort = () => Math.floor(Math.random() * (9000 - 2000 + 1)) + 2000;
+const randomPort = getRandomPort();
+
+// Настройка маршрута для проверки работы сервера
+app.get('/', (req, res) => {
+  res.send('Hello World! The server is running.');
+});
+
+// Запуск веб-сервера
+app.listen(randomPort, () => {
+  console.log(`Server is running on port ${randomPort}`);
+});
 
 // Функция для генерации уникальной ссылки на WebApp
 const generateReferralLink = (telegramId, totalCoins) =>
